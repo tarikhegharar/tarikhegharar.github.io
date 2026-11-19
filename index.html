@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>یه سؤال مهم ❤️</title>
+
+      <link rel="stylesheet" href="style.css">
+
+      <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet">
+</head>
+
+<body>
+
+      <div class="hearts" id="hearts"></div>
+
+      <main class="container">
+
+            <!-- مرحله اول: سؤال اصلی -->
+            <div class="card" id="mainCard">
+
+                  <div class="emoji" id="emoji">🥹💗</div>
+
+                  <h1 id="question">میای بریم دیت؟</h1>
+
+                  <p id="message">
+                        یه قرار قشنگ با من میای؟ قول میدم کلی حال کنیم! 🥰
+                  </p>
+
+                  <div class="buttons" id="buttons">
+
+                        <button class="yes-btn" id="yesBtn">
+                              آره، میام ❤️
+                        </button>
+
+                        <button class="no-btn" id="noBtn">
+                              نه! 🙄
+                        </button>
+
+                  </div>
+
+            </div>
+
+
+            <!-- مرحله دوم: برنامه ریزی دیت -->
+            <div class="card planner-card hidden" id="plannerCard">
+
+                  <div class="planner-emoji">💗</div>
+
+                  <div class="step-counter" id="stepCounter">
+                        مرحله ۱ از ۳
+                  </div>
+
+                  <div class="progress">
+                        <div class="progress-fill" id="progressFill"></div>
+                  </div>
+
+
+                  <!-- انتخاب تاریخ و ساعت -->
+                  <section class="step active" id="step1">
+
+                        <h1>اول تاریخ رو مشخص کنیم! 📅</h1>
+
+                        <p>
+                              چه روزی دوست داری بریم دیت؟
+                        </p>
+
+                        <div class="form-group">
+
+                              <label for="dateSelect">تاریخ قرار</label>
+
+                              <select id="dateSelect">
+                                    <option value="">انتخاب تاریخ</option>
+                              </select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                              <label for="timeSelect">ساعت قرار</label>
+
+                              <select id="timeSelect">
+
+                                    <option value="">انتخاب ساعت</option>
+
+                                    <option value="10:00">۱۰:۰۰ صبح</option>
+                                    <option value="11:00">۱۱:۰۰ صبح</option>
+                                    <option value="12:00">۱۲:۰۰ ظهر</option>
+                                    <option value="13:00">۱۳:۰۰</option>
+                                    <option value="14:00">۱۴:۰۰</option>
+                                    <option value="15:00">۱۵:۰۰</option>
+                                    <option value="16:00">۱۶:۰۰</option>
+                                    <option value="17:00">۱۷:۰۰</option>
+                                    <option value="18:00">۱۸:۰۰</option>
+                                    <option value="19:00">۱۹:۰۰</option>
+                                    <option value="20:00">۲۰:۰۰</option>
+                                    <option value="21:00">۲۱:۰۰</option>
+
+                              </select>
+
+                        </div>
+
+                        <button class="next-btn" id="next1">
+                              بریم مرحله بعد ❤️
+                        </button>
+
+                  </section>
+
+
+                  <!-- انتخاب مکان -->
+                  <section class="step" id="step2">
+
+                        <h1>کجا بریم؟ 📍</h1>
+
+                        <p>
+                              دوست داری دیت‌مون کجا باشه؟
+                        </p>
+
+                        <div class="options-grid" id="locationOptions">
+
+                              <button class="option" data-value="کافه دنج" type="button">
+                                    <span>☕</span>
+                                    کافه دنج
+                              </button>
+
+                              <button class="option" data-value="رستوران" type="button">
+                                    <span>🍽️</span>
+                                    رستوران
+                              </button>
+
+                              <button class="option" data-value="پارک" type="button">
+                                    <span>🌳</span>
+                                    پارک
+                              </button>
+
+                              <button class="option" data-value="سینما" type="button">
+                                    <span>🎬</span>
+                                    سینما
+                              </button>
+
+                              <button class="option" data-value="مرکز خرید" type="button">
+                                    <span>🛍️</span>
+                                    مرکز خرید
+                              </button>
+
+                              <button class="option" data-value="یه جای سورپرایزی" type="button">
+                                    <span>🎁</span>
+                                    سورپرایز من کن!
+                              </button>
+
+                        </div>
+
+                        <div class="navigation">
+
+                              <button class="back-btn" id="back2">
+                                    قبلی
+                              </button>
+
+                              <button class="next-btn" id="next2">
+                                    مرحله بعد ❤️
+                              </button>
+
+                        </div>
+
+                  </section>
+
+
+                  <!-- انتخاب غذا -->
+                  <section class="step" id="step3">
+
+                        <h1>چی بخوریم؟ 😋</h1>
+
+                        <p>
+                              این قسمت خیلی مهمه! چی دوست داری؟
+                        </p>
+
+                        <div class="options-grid" id="foodOptions">
+
+                              <button class="option" data-value="پیتزا" type="button">
+                                    <span>🍕</span>
+                                    پیتزا
+                              </button>
+
+                              <button class="option" data-value="برگر" type="button">
+                                    <span>🍔</span>
+                                    برگر
+                              </button>
+
+                              <button class="option" data-value="پاستا" type="button">
+                                    <span>🍝</span>
+                                    پاستا
+                              </button>
+
+                              <button class="option" data-value="بستنی" type="button">
+                                    <span>🍦</span>
+                                    بستنی
+                              </button>
+
+                              <button class="option" data-value="قهوه و کیک" type="button">
+                                    <span>☕</span>
+                                    قهوه و کیک
+                              </button>
+
+                              <button class="option" data-value="هرچی تو بگی!" type="button">
+                                    <span>🥰</span>
+                                    انتخاب با تو!
+                              </button>
+
+                        </div>
+
+                        <div class="navigation">
+
+                              <button class="back-btn" id="back3">
+                                    قبلی
+                              </button>
+
+                              <button class="next-btn" id="finishBtn">
+                                    نهایی کنیم! 💗
+                              </button>
+
+                        </div>
+
+                  </section>
+
+            </div>
+
+
+            <!-- مرحله نهایی: نمایش برنامه دیت -->
+            <div class="card final-card hidden" id="finalCard">
+
+                  <div class="success-emoji">🥳💖</div>
+
+                  <h1>پس قرارمون قطعی شد! ❤️</h1>
+
+                  <p>
+                        دیگه همه‌چیز مشخصه!
+                        اینم برنامه دیت قشنگمون:
+                  </p>
+
+                  <div class="summary">
+
+                        <div class="summary-item">
+                              <span>📅</span>
+                              <div>
+                                    <small>تاریخ قرار</small>
+                                    <strong id="finalDate">---</strong>
+                              </div>
+                        </div>
+
+                        <div class="summary-item">
+                              <span>⏰</span>
+                              <div>
+                                    <small>ساعت قرار</small>
+                                    <strong id="finalTime">---</strong>
+                              </div>
+                        </div>
+
+                        <div class="summary-item">
+                              <span>📍</span>
+                              <div>
+                                    <small>مکان قرار</small>
+                                    <strong id="finalLocation">---</strong>
+                              </div>
+                        </div>
+
+                        <div class="summary-item">
+                              <span>🍕</span>
+                              <div>
+                                    <small>قراره چی بخوریم؟</small>
+                                    <strong id="finalFood">---</strong>
+                              </div>
+                        </div>
+
+                  </div>
+
+                  <div class="pickup-message">
+
+                        🚗💗
+
+                        <h2>پس منتظر باش!</h2>
+
+                        <p>
+                              نیم ساعت قبل از قرار میام دنبالت...
+                              <br>
+                              آماده باش که قراره کلی خوش بگذره! 🥰
+                        </p>
+
+                  </div>
+
+                  <div class="love">
+                        دوستت دارم! ❤️
+                  </div>
+
+            </div>
+
+      </main>
+
+      <script src="app.js"></script>
+
+</body>
+
+</html>
