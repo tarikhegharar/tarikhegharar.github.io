@@ -16,6 +16,12 @@ const timeSelect = document.getElementById("timeSelect");
 const stepCounter = document.getElementById("stepCounter");
 const progressFill = document.getElementById("progressFill");
 
+const finishBtn = document.getElementById("finishBtn");
+
+// آدرس Cloudflare Worker
+const WORKER_URL =
+      "https://date-invitation-api.kavoosi-paniz23.workers.dev/";
+
 let noClicks = 0;
 
 let selectedLocation = "";
@@ -53,7 +59,6 @@ const messages = [
 // دکمه نه: کوچک شدن و حرکت تصادفی
 // --------------------------------
 
-
 noBtn.addEventListener("click", () => {
 
       noClicks++;
@@ -61,19 +66,15 @@ noBtn.addEventListener("click", () => {
       const yesScale = Math.min(1 + noClicks * 0.35, 3);
       const noScale = Math.max(1 - noClicks * 0.15, 0);
 
-      // بزرگ شدن دکمه بله
       yesBtn.style.transform = `scale(${yesScale})`;
 
-      // کوچک شدن دکمه نه
       noBtn.style.transform = `scale(${noScale})`;
 
-      // تغییر پیام
       const index = Math.min(noClicks - 1, messages.length - 1);
 
       message.textContent = messages[index].text;
       emoji.textContent = messages[index].emoji;
 
-      // محاسبه محدوده کارت
       const card = mainCard;
       const cardRect = card.getBoundingClientRect();
 
@@ -99,7 +100,6 @@ noBtn.addEventListener("click", () => {
 
       const yesRect = yesBtn.getBoundingClientRect();
 
-      // انتخاب موقعیت تصادفی بدون برخورد با بله
       for (let i = 0; i < 100; i++) {
 
             randomX = padding + Math.random() * Math.max(0, maxX);
@@ -134,7 +134,6 @@ noBtn.addEventListener("click", () => {
 
       }
 
-      // حذف دکمه نه بعد از ۷ بار
       if (noClicks >= 7) {
 
             noBtn.style.display = "none";
@@ -176,6 +175,9 @@ yesBtn.addEventListener("click", () => {
 // --------------------------------
 
 function generateDates() {
+
+      // جلوگیری از تکراری شدن تاریخ ها
+      dateSelect.innerHTML = '<option value="">انتخاب تاریخ</option>';
 
       const persianDateFormatter = new Intl.DateTimeFormat(
             "fa-IR-u-ca-persian",
@@ -360,10 +362,53 @@ document.getElementById("back3").addEventListener("click", () => {
 
 
 // --------------------------------
+// ارسال اطلاعات به تلگرام
+// --------------------------------
+
+async function sendToTelegram(data) {
+
+      const response = await fetch(WORKER_URL, {
+
+            method: "POST",
+
+            headers: {
+                  "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(data)
+
+      });
+
+      let result;
+
+      try {
+
+            result = await response.json();
+
+      } catch {
+
+            throw new Error("پاسخ سرور قابل خواندن نیست.");
+
+      }
+
+      if (!response.ok || !result.ok) {
+
+            throw new Error(
+                  result.error || "ارسال اطلاعات ناموفق بود."
+            );
+
+      }
+
+      return result;
+
+}
+
+
+// --------------------------------
 // نهایی کردن برنامه دیت
 // --------------------------------
 
-document.getElementById("finishBtn").addEventListener("click", () => {
+finishBtn.addEventListener("click", async () => {
 
       if (!selectedFood) {
 
@@ -372,6 +417,17 @@ document.getElementById("finishBtn").addEventListener("click", () => {
             return;
 
       }
+
+      if (!dateSelect.value || !timeSelect.value || !selectedLocation) {
+
+            alert("لطفاً همه انتخاب‌ها رو کامل کن! ❤️");
+
+            return;
+
+      }
+
+      // جلوگیری از ارسال چندباره
+      if (finishBtn.disabled) return;
 
       const selectedDate = new Date(
             dateSelect.value + "T12:00:00"
@@ -391,23 +447,63 @@ document.getElementById("finishBtn").addEventListener("click", () => {
             timeSelect.selectedIndex
       ].textContent;
 
-      document.getElementById("finalDate").textContent = finalDate;
+      // اطلاعاتی که باید به Worker ارسال شوند
+      const appointmentData = {
 
-      document.getElementById("finalTime").textContent = finalTime;
+            date: finalDate,
 
-      document.getElementById("finalLocation").textContent =
-            selectedLocation;
+            time: finalTime,
 
-      document.getElementById("finalFood").textContent =
-            selectedFood;
+            location: selectedLocation,
 
-      plannerCard.classList.add("hidden");
+            food: selectedFood
 
-      finalCard.classList.remove("hidden");
+      };
 
-      for (let i = 0; i < 60; i++) {
+      const originalText = finishBtn.textContent;
 
-            setTimeout(createHeart, i * 100);
+      finishBtn.disabled = true;
+      finishBtn.textContent = "در حال ثبت قرار... ❤️";
+
+      try {
+
+            // ارسال اطلاعات به Cloudflare و تلگرام
+            await sendToTelegram(appointmentData);
+
+            // نمایش اطلاعات در کارت نهایی
+            document.getElementById("finalDate").textContent = finalDate;
+
+            document.getElementById("finalTime").textContent = finalTime;
+
+            document.getElementById("finalLocation").textContent =
+                  selectedLocation;
+
+            document.getElementById("finalFood").textContent =
+                  selectedFood;
+
+            plannerCard.classList.add("hidden");
+
+            finalCard.classList.remove("hidden");
+
+            for (let i = 0; i < 60; i++) {
+
+                  setTimeout(createHeart, i * 100);
+
+            }
+
+      } catch (error) {
+
+            console.error("Telegram Error:", error);
+
+            alert(
+                  "اوه! مشکلی در ثبت قرار پیش اومد. 😢\nلطفاً دوباره تلاش کن."
+            );
+
+      } finally {
+
+            finishBtn.disabled = false;
+
+            finishBtn.textContent = originalText;
 
       }
 
